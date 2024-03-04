@@ -1,6 +1,9 @@
-def deposit():
+import random
+
+#Balance = 0
+
+def deposit(Balance):
   ValidDeposit = False
-  Balance = 0
   amount = 0
   while ValidDeposit == False:
     amount = float(input("Enter amount to deposit($1-100): "))
@@ -10,10 +13,10 @@ def deposit():
       ValidDeposit = True
     else:
       print("Please enter an amount between $1 and $100")
-  Balance = Balance + amount
-  print(amount, "has been deposited")
-  print("your balance is", Balance)
-  return Balance
+    Balance = Balance + amount
+    print(amount, "has been deposited")
+    print("your balance is", Balance)
+    return Balance
 
 def withdrawl(Balance):
   ValidWithdrawl = False
@@ -30,18 +33,18 @@ def withdrawl(Balance):
       print(Withdrawn, "has been withdrawn. Remaining balance: ", Balance)
   return Balance
 
-def game(balance):
-  import random
+def game(Balance):
+  print('Balance:',Balance)
   valid_stake = False
   while valid_stake == False:
     stake = float(input("Enter amount to bet:"))
-    if stake > balance:
+    if stake > Balance:
       print("Not enough money in account")
-    if type(stake) != float and type(stake) != int:
+    elif type(stake) != float and type(stake) != int:
       print("Not a number")
     else:
       valid_stake = True
-  balance = balance - stake
+  Balance = Balance - stake
   number = random.randint(1, 100)
   lower_mult = round(100/number,2)
   upper_mult = round(100/(100-number),2)
@@ -55,32 +58,32 @@ def game(balance):
 
   if (guess == '1' and next_number > number):
     print("You guessed correctly.")
-    balance = round(balance + (stake * upper_mult),2)
-    print(f"{round(upper_mult*stake,2)} has been added to your balance. Current Balance: {balance}")
+    Balance = round(Balance + (stake * upper_mult),2)
+    print(f"{round(upper_mult * stake,2)} has been added to your balance. Current Balance: {round(Balance,2)}")
   elif (guess == '2' and next_number < number):
     print("You guessed correctly.")
-    balance = round(balance + (stake * lower_mult),2)
-    print(f"{round(lower_mult*stake,2)} has been added to your balance. Current balance: {balance}")
+    Balance = round(Balance + (stake * lower_mult),2)
+    print(f"{round(lower_mult*stake,2)} has been added to your Balance. Current balance: {round(Balance,2)}")
   elif (guess == '3' and next_number == number):
     print("You guessed correctly.")
-    balance = round(balance + (stake * 100),2)
-    print(f"{round(100*stake,2)} has been added to your balance. Current balance: {balance}")
+    Balance = round(Balance + (stake * 100),2)
+    print(f"{round(100*stake,2)} has been added to your balance. Current balance: {round(Balance,2)}")
   else:
-      print(f"You guessed incorrectly. Current balance: {balance}")
-
+      print(f"You guessed incorrectly. Current balance: {Balance}")
+  return Balance
 
 def start():
   quit = False
-  balance = 0
+  Balance = 0
   while quit == False:
-    choice = input("Press 'E' to play. \nPress 'D' to deposit. \nPress 'W' to withdrawl. \nPress 'Q' to quit \n")
+    choice = input("\nPress 'E' to play. \nPress 'D' to deposit. \nPress 'W' to withdrawl. \nPress 'Q' to quit ")
     if choice == "E" or choice == "e":
-      game(balance)
+      Balance = game(Balance)
     elif choice == "D" or choice == "d":
-      balance = deposit()
-      
+      Balance = deposit(Balance)
     elif choice == "W" or choice == "w":
-      withdrawl(balance)
+      Balance = withdrawl(Balance)
     elif choice == "Q" or choice == "q":
       quit = True
+
 start()
